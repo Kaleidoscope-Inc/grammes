@@ -88,6 +88,10 @@ func (g *String) AddStep(step string, params ...interface{}) {
 			g.buffer.Write(t)
 		case string:
 			g.buffer.WriteString("\"" + strings.ReplaceAll(t, "\"", "\\\"") + "\"")
+		case int64, uint64:
+			g.buffer.WriteString(fmt.Sprintf("%dL", p))
+		case float32, float64:
+			g.buffer.WriteString(fmt.Sprintf("%fd", p))
 		default:
 			g.buffer.WriteString(fmt.Sprintf("%v", t))
 		}
@@ -117,4 +121,34 @@ func gatherInts(params ...int) string {
 	default:
 		return ""
 	}
+}
+
+func (g *String) AddListProperty(k string, v []string) {
+	g.buffer.Reset()
+
+	for _, vv := range v {
+		g.buffer.WriteString(fmt.Sprintf(".property(list, \"%s\", \"%s\")", k, vv))
+	}
+	g.string += g.buffer.String()
+}
+
+func (g *String) AddSetProperty(k string, v []interface{}) {
+	g.buffer.Reset()
+
+	for _, vv := range v {
+		switch value := vv.(type) {
+		case float64, float32:
+			g.buffer.WriteString(fmt.Sprintf(`.property(set, "%s", %fd)`, k, value))
+		case int64:
+			g.buffer.WriteString(fmt.Sprintf(`.property(set, "%s", %dL)`, k, value))
+		case int, bool:
+			g.buffer.WriteString(fmt.Sprintf(".property(set, \"%s\", %v)", k, value))
+		case string:
+			g.buffer.WriteString(fmt.Sprintf(".property(set, \"%s\", \"%s\")", k, value))
+		default:
+			g.buffer.WriteString(fmt.Sprintf(".property(set, \"%s\", \"%s\")", k, value))
+		}
+	}
+
+	g.string += g.buffer.String()
 }

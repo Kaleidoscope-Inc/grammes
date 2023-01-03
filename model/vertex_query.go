@@ -212,3 +212,40 @@ func (v *Vertex) AddProperty(client queryClient, key string, value interface{}) 
 
 	return v.QueryRefresh(client)
 }
+
+type EdgeWithPropsAndLabel struct {
+	Label      string
+	Id         int64
+	Properties []interface{}
+}
+
+func (v *Vertex) AddEdges(client queryClient, edges []EdgeWithPropsAndLabel) error {
+	if client == nil {
+		return gremerror.NewGrammesError("AddEdges", gremerror.ErrNilClient)
+	}
+
+	var query = newTrav().V().HasID(v.ID())
+
+	for i, edge := range edges {
+		if i != 0 {
+			query = query.OutV()
+		}
+		query = query.AddE(edge.Label).To(newTrav().V().HasID(edge.Id).Raw())
+
+		if len(edge.Properties)%2 != 0 {
+			return gremerror.NewGrammesError("AddEdges", gremerror.ErrOddNumberOfParameters)
+		}
+
+		if len(edge.Properties) > 0 {
+			for i := 0; i < len(edge.Properties); i += 2 {
+				query.AddStep("property", edge.Properties[i], edge.Properties[i+1])
+			}
+		}
+	}
+
+	_, err := client.ExecuteQuery(query)
+	if err != nil {
+		return gremerror.NewQueryError("AddEdges", query.String(), err)
+	}
+	return nil
+}

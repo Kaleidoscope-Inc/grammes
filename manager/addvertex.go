@@ -102,7 +102,15 @@ func (v *addVertexQueryManager) AddVertex(label string, properties ...interface{
 	query := traversal.NewTraversal().AddV(label)
 
 	for i := 0; i < len(properties); i += 2 {
-		query.AddStep("property", properties[i], properties[i+1])
+		k := properties[i]
+		v := properties[i+1]
+		switch v.(type) {
+		case []interface{}:
+			vInterfaceArray := v.([]interface{})
+			query.AddSetProperty(k.(string), vInterfaceArray)
+		default:
+			query.AddStep("property", k, v)
+		}
 	}
 
 	return v.AddVertexByString(query.String())
