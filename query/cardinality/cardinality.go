@@ -46,13 +46,13 @@ type Cardinality string
 const (
 	// List allows an arbitrary number of
 	// values per element for such key.
-	List Cardinality = "list"
+	List Cardinality = "LIST"
 	// Set allows multiple values but no
 	// duplicate values per element for such key.
-	Set Cardinality = "set"
+	Set Cardinality = "SET"
 	// Single allows at most one
 	// value per element for such key
-	Single Cardinality = "single"
+	Single Cardinality = "SINGLE"
 )
 
 // String will convert Cardinality to a string

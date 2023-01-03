@@ -80,6 +80,12 @@ type PropertyValue struct {
 // PropertyID holds the ID that is used
 // for the property itself.
 type PropertyID struct {
-	Type  string      `json:"@type"`
-	Value interface{} `json:"@value"`
+	Type  string          `json:"@type"`
+	Value PropertyIDValue `json:"@value"`
+}
+
+// PropertyIDValue holds the value
+// of the PropertyID.
+type PropertyIDValue struct {
+	RelationID string `json:"relationId"`
 }

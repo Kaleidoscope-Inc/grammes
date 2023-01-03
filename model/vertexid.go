@@ -20,22 +20,9 @@
 
 package model
 
-import "encoding/json"
-
-// IDList is used for unmarshalling after querying.
-// We use this instead of []ID for Gremlin v3.0 compatibility.
-type IDList struct {
-	listOfIDs List
-	IDs       []ID
-}
-
-// UnmarshalJSON overrides to assure a proper unmarshal.
-func (l *IDList) UnmarshalJSON(data []byte) error {
-	if err := json.Unmarshal(data, &l.listOfIDs); err == nil {
-		if data, err = json.Marshal(l.listOfIDs.Value); err != nil {
-			return err
-		}
-	}
-
-	return json.Unmarshal(data, &l.IDs)
+// ID contains the data stores in the
+// 'ID' data including the type and Value
+type ID struct {
+	Type  string `json:"@type"`
+	Value int64  `json:"@value"`
 }

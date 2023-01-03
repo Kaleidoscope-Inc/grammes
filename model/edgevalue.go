@@ -23,11 +23,18 @@ package model
 // EdgeValue contains the 'value' data
 // from the Edge object.
 type EdgeValue struct {
-	ID         interface{}    `json:"id"`
+	ID         EdgeID         `json:"id"`
 	Label      string         `json:"label"`
 	InVLabel   string         `json:"inVLabel,omitempty"`
 	OutVLabel  string         `json:"outVLabel,omitempty"`
-	InV        interface{}    `json:"inV,omitempty"`
-	OutV       interface{}    `json:"outV,omitempty"`
+	InV        EdgeVertex     `json:"inV,omitempty"`
+	OutV       EdgeVertex     `json:"outV,omitempty"`
 	Properties EdgeProperties `json:"properties,omitempty"`
+}
+
+// EdgeVertex only contains the type
+// and ID of the vertex.
+type EdgeVertex struct {
+	Type  string `json:"@type"`
+	Value int64  `json:"@value"`
 }

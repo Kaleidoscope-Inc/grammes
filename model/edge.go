@@ -43,8 +43,8 @@ func (e *Edge) PropertyValue(key string) interface{} {
 }
 
 // ID will retrieve the Edge ID for you.
-func (e *Edge) ID() interface{} {
-	return e.Value.ID
+func (e *Edge) ID() string {
+	return e.Value.ID.Value.RelationID
 }
 
 // Label will retrieve the Edge Label for you.
@@ -54,14 +54,14 @@ func (e *Edge) Label() string {
 
 // OutVertexID will retrieve the id for the
 // vertex that the edge goes out of.
-func (e *Edge) OutVertexID() interface{} {
-	return e.Value.OutV
+func (e *Edge) OutVertexID() (id int64) {
+	return e.Value.OutV.Value
 }
 
 // InVertexID will retrieve the id for the
 // vertex that the edge goes into.
-func (e *Edge) InVertexID() interface{} {
-	return e.Value.InV
+func (e *Edge) InVertexID() (id int64) {
+	return e.Value.InV.Value
 }
 
 // OutVertexLabel will retrieve the label

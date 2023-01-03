@@ -78,6 +78,6 @@ func main() {
 	// Print out the received vertex.
 	logger.Info("gathered vertex",
 		zap.String("label", vertex.Label()),
-		zap.Any("id", vertex.ID()),
+		zap.Int64("id", vertex.ID()),
 	)
 }

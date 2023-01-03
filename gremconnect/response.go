@@ -53,9 +53,8 @@ func MarshalResponse(msg []byte) (Response, error) {
 		code   = status["code"].(float64)
 		resp   = Response{Code: int(code)}
 	)
-	message, _ := status["message"].(string)
 
-	err = responseDetectError(resp.Code, message)
+	err = responseDetectError(resp.Code)
 	if err != nil {
 		resp.Data = err // Use the Data field as a vehicle for the error.
 	} else {
@@ -68,7 +67,7 @@ func MarshalResponse(msg []byte) (Response, error) {
 
 // responseDetectError detects any possible errors in responses
 // from Gremlin Server and generates an error for each code
-func responseDetectError(code int, message string) error {
+func responseDetectError(code int) error {
 	switch code {
 	case 200:
 		break
@@ -77,25 +76,25 @@ func responseDetectError(code int, message string) error {
 	case 206:
 		break
 	case 401:
-		return gremerror.NewNetworkError(401, "UNAUTHORIZED", message)
+		return gremerror.NewNetworkError(401, "UNAUTHORIZED")
 	case 407:
-		return gremerror.NewNetworkError(407, "AUTHENTICATION REQUIRED", message)
+		return gremerror.NewNetworkError(407, "AUTHENTICATION REQUIRED")
 	case 498:
-		return gremerror.NewNetworkError(498, "MALFORMED REQUEST", message)
+		return gremerror.NewNetworkError(498, "MALFORMED REQUEST")
 	case 499:
-		return gremerror.NewNetworkError(499, "INVALID REQUEST ARGUMENTS", message)
+		return gremerror.NewNetworkError(499, "INVALID REQUEST ARGUMENTS")
 	case 500:
-		return gremerror.NewNetworkError(500, "INTERNAL SERVER ERROR", message)
+		return gremerror.NewNetworkError(500, "INTERNAL SERVER ERROR")
 	case 503:
-		return gremerror.NewNetworkError(503, "SERVER UNAVAILABLE", message)
+		return gremerror.NewNetworkError(503, "SERVER UNAVAILABLE")
 	case 597:
-		return gremerror.NewNetworkError(597, "SCRIPT EVALUATION ERROR", message)
+		return gremerror.NewNetworkError(597, "SCRIPT EVALUATION ERROR")
 	case 598:
-		return gremerror.NewNetworkError(598, "SERVER TIMEOUT", message)
+		return gremerror.NewNetworkError(598, "SERVER TIMEOUT")
 	case 599:
-		return gremerror.NewNetworkError(599, "SERIALIZATION ERROR", message)
+		return gremerror.NewNetworkError(599, "SERIALIZATION ERROR")
 	default:
-		return gremerror.NewNetworkError(code, "UNKNOWN ERROR", message)
+		return gremerror.NewNetworkError(code, "UNKNOWN ERROR")
 	}
 	return nil
 }

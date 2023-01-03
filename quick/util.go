@@ -21,10 +21,10 @@
 package quick
 
 import (
-	"github.com/northwesternmutual/grammes"
-	"github.com/northwesternmutual/grammes/logging"
-	"github.com/northwesternmutual/grammes/query/graph"
-	"github.com/northwesternmutual/grammes/query/traversal"
+	"gitlab.com/kaleidoscope.root/grammes-gremlin/grammes"
+	"gitlab.com/kaleidoscope.root/grammes-gremlin/grammes/logging"
+	"gitlab.com/kaleidoscope.root/grammes-gremlin/grammes/query/graph"
+	"gitlab.com/kaleidoscope.root/grammes-gremlin/grammes/query/traversal"
 )
 
 // CustomTraversal is have a custom prefix for your

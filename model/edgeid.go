@@ -20,22 +20,16 @@
 
 package model
 
-import "encoding/json"
-
-// IDList is used for unmarshalling after querying.
-// We use this instead of []ID for Gremlin v3.0 compatibility.
-type IDList struct {
-	listOfIDs List
-	IDs       []ID
+// EdgeID is the main wrapper struct
+// that holds the type and ID itself.
+type EdgeID struct {
+	Type  string         `json:"@type"`
+	Value EdgeRelationID `json:"@value"`
 }
 
-// UnmarshalJSON overrides to assure a proper unmarshal.
-func (l *IDList) UnmarshalJSON(data []byte) error {
-	if err := json.Unmarshal(data, &l.listOfIDs); err == nil {
-		if data, err = json.Marshal(l.listOfIDs.Value); err != nil {
-			return err
-		}
-	}
-
-	return json.Unmarshal(data, &l.IDs)
+// EdgeRelationID contains the ID of the
+// edge and its relationship status between
+// vertices.
+type EdgeRelationID struct {
+	RelationID string `json:"relationId"`
 }

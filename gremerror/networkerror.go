@@ -26,15 +26,13 @@ import "strconv"
 type NetworkError struct {
 	statusCode int
 	msg        string
-	origMsg    string
 }
 
 // NewNetworkError returns a status code related error.
-func NewNetworkError(statusCode int, msg string, origMsg string) error {
+func NewNetworkError(statusCode int, msg string) error {
 	return &NetworkError{
 		statusCode: statusCode,
 		msg:        msg,
-		origMsg:    origMsg,
 	}
 }
 
@@ -43,6 +41,5 @@ func (g *NetworkError) Error() string {
 		fmtError("type", "NETWORK_ERROR"),
 		fmtError("status code", strconv.Itoa(g.statusCode)),
 		fmtError("error", g.msg),
-		fmtError("original error", g.origMsg),
 	)
 }
