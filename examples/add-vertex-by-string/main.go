@@ -78,5 +78,5 @@ func main() {
 
 	// Print out the number of vertices on the graph.
 	// This should be 1.
-	logger.Info("Counted Vertices", zap.Int64("count", count))
+	logger.Info("Counted Vertices", zap.Any("count", count))
 }

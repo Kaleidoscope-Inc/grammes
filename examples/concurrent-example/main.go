@@ -73,5 +73,5 @@ func main() {
 	}
 
 	// Log the count of the vertices.
-	logger.Info("Counted vertices", zap.Int64("count", count))
+	logger.Info("Counted vertices", zap.Any("count", count))
 }

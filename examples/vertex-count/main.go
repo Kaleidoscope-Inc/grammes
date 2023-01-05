@@ -69,5 +69,5 @@ func main() {
 		logger.Fatal("Couldn't gather all IDs", zap.Error(err))
 	}
 
-	logger.Info("Counted vertices", zap.Int64("count", count))
+	logger.Info("Counted vertices", zap.Any("count", count))
 }

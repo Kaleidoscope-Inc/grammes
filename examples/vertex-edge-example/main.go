@@ -123,13 +123,13 @@ func printEdges(client *grammes.Client, edges []grammes.Edge) {
 		)
 
 		logger.Info("OutVertex",
-			zap.Int64("ID", edges[0].OutVertexID()),
+			zap.Any("ID", edges[0].OutVertexID()),
 			zap.String("Label", edges[0].OutVertexLabel()),
 			zap.Any("Name", v1.PropertyValue("name", 0)),
 		)
 
 		logger.Info("InVertex",
-			zap.Int64("ID", edges[0].InVertexID()),
+			zap.Any("ID", edges[0].InVertexID()),
 			zap.String("Label", edges[0].InVertexLabel()),
 			zap.Any("Name", v2.PropertyValue("name", 0)),
 		)
