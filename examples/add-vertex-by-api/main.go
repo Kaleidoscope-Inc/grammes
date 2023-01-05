@@ -80,7 +80,7 @@ func main() {
 		logger.Fatal("Failed to count vertices", zap.Error(err))
 	}
 
-	logger.Info("Number of Vertices Before", zap.Any("count", count))
+	logger.Info("Number of Vertices Before", zap.Int64("count", count))
 
 	// Read the request example JSON from the assets/ folder.
 	api, err := prepareAPI("../../assets/test/request.json")
@@ -108,5 +108,5 @@ func main() {
 		logger.Fatal("Failed to count vertices", zap.Error(err))
 	}
 
-	logger.Info("Number of Vertices After", zap.Any("count", count))
+	logger.Info("Number of Vertices After", zap.Int64("count", count))
 }

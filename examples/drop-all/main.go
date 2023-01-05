@@ -66,7 +66,7 @@ func main() {
 	}
 
 	// Log the amount of vertices that are now on the graph.
-	logger.Info("Counted vertices", zap.Any("count", count))
+	logger.Info("Counted vertices", zap.Int64("count", count))
 
 	// Now drop all of the vertices.
 	client.DropAll()
@@ -78,5 +78,5 @@ func main() {
 	}
 
 	// Log the amount of vertices that are now on the graph.
-	logger.Info("Counted vertices", zap.Any("count", count))
+	logger.Info("Counted vertices", zap.Int64("count", count))
 }
