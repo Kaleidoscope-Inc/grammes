@@ -126,3 +126,44 @@ func TestGatherInts(t *testing.T) {
 		})
 	})
 }
+
+func TestAddListProperty(t *testing.T) {
+	Convey("Given a graph traversal", t, func() {
+		g := NewTraversal()
+		Convey("When AddListProperty is called with a key and zero properties", func() {
+			g.AddListProperty("key1", []string{})
+			Convey("Then g should equal g", func() {
+				So(g.String(), ShouldEqual, "g")
+			})
+		})
+
+		Convey("When AddListProperty is called with a key and 2 properties", func() {
+			g.AddListProperty("key1", []string{"value1", "value2"})
+			Convey("Then g should equal g.property(list, \"key1\", \"value1\").property(list, \"key1\", \"value2\")", func() {
+				So(g.String(), ShouldEqual, "g.property(list, \"key1\", \"value1\").property(list, \"key1\", \"value2\")")
+			})
+		})
+	})
+}
+
+func TestAddSetProperty(t *testing.T) {
+	Convey("Given a graph traversal", t, func() {
+		g := NewTraversal()
+		Convey("When AddSetProperty is called with a key and zero properties", func() {
+			var zeroProps []interface{}
+			g.AddSetProperty("key1", zeroProps)
+			Convey("Then g should equal g", func() {
+				So(g.String(), ShouldEqual, "g")
+			})
+		})
+
+		Convey("When AddSetProperty is called with a key and 6 properties of different types", func() {
+			var props []interface{}
+			props = append(props, "value1", 3.4e+38, 1.7e+308, 9223372036854775807, 1, true)
+			g.AddSetProperty("key1", props)
+			Convey("Then g should equal g.property(set, \"key1\", \"value1\").property(set, \"key1\", 339999999999999996123846586046231871488.000000d).property(set, \"key1\", 169999999999999993883079578865998174333346074304075874502773119193537729178160565864330091787584707988572262467983188919169916105593357174268369962062473635296474636515660464935663040684957844303524367815028553272712298986386310828644513212353921123253311675499856875650512437415429217994623324794855339589632.000000d).property(set, \"key1\", 9223372036854775807).property(set, \"key1\", 1).property(set, \"key1\", true)", func() {
+				So(g.String(), ShouldEqual, "g.property(set, \"key1\", \"value1\").property(set, \"key1\", 339999999999999996123846586046231871488.000000d).property(set, \"key1\", 169999999999999993883079578865998174333346074304075874502773119193537729178160565864330091787584707988572262467983188919169916105593357174268369962062473635296474636515660464935663040684957844303524367815028553272712298986386310828644513212353921123253311675499856875650512437415429217994623324794855339589632.000000d).property(set, \"key1\", 9223372036854775807).property(set, \"key1\", 1).property(set, \"key1\", true)")
+			})
+		})
+	})
+}
