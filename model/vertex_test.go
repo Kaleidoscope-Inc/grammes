@@ -130,7 +130,7 @@ func TestAddEdge(t *testing.T) {
 	Convey("Given a variable that represents the Vertex struct", t, func() {
 
 		v := Vertex{Type: "tesType"}
-		Convey("When 'AddEdges' is called with a string and int", func() {
+		Convey("When 'AddEdge' is called with a string and int", func() {
 			var client queryClient
 			var edge Edge
 			var tstoutVID int64
@@ -139,6 +139,32 @@ func TestAddEdge(t *testing.T) {
 			result, _ := v.AddEdge(client, "testLbl", tstoutVID, "tstIntrf1", "tstIntrf2", 7777, 9876)
 			Convey("Then result should equal 'testLabel'", func() {
 				So(result, ShouldResemble, edge)
+			})
+		})
+	})
+}
+
+func TestAddEdges(t *testing.T) {
+	Convey("Given a variable that represents the Vertex struct", t, func() {
+
+		v := Vertex{Type: "tesType"}
+		Convey("When 'AddEdges' is called with two edges", func() {
+			var client queryClient
+			var tstoutVID int64
+			tstoutVID = 12345
+			edge1 := EdgeWithPropsAndLabel{
+				Label:      "testLbl",
+				Id:         tstoutVID,
+				Properties: []interface{}{"tstIntrf1", 7777, "tstIntrf2", 9876},
+			}
+			edge2 := EdgeWithPropsAndLabel{
+				Label:      "testLb2",
+				Id:         tstoutVID,
+				Properties: []interface{}{"tstIntrf1", 8888, "tstIntrf2", 5432},
+			}
+			result, _ := v.AddEdges(client, []EdgeWithPropsAndLabel{edge1, edge2})
+			Convey("Then result should equal two edges", func() {
+				So(result, ShouldResemble, []Edge{})
 			})
 		})
 	})

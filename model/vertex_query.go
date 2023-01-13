@@ -215,25 +215,25 @@ func (v *Vertex) AddProperty(client queryClient, key string, value interface{}) 
 
 type EdgeWithPropsAndLabel struct {
 	Label      string
-	Id         int64
+	Id         interface{}
 	Properties []interface{}
 }
 
-func (v *Vertex) AddEdges(client queryClient, edges []EdgeWithPropsAndLabel) error {
+func (v *Vertex) AddEdges(client queryClient, inputEdges []EdgeWithPropsAndLabel) ([]Edge, error) {
 	if client == nil {
-		return gremerror.NewGrammesError("AddEdges", gremerror.ErrNilClient)
+		return []Edge{}, gremerror.NewGrammesError("AddEdges", gremerror.ErrNilClient)
 	}
 
 	var query = newTrav().V().HasID(v.ID())
 
-	for i, edge := range edges {
+	for i, edge := range inputEdges {
 		if i != 0 {
 			query = query.OutV()
 		}
 		query = query.AddE(edge.Label).To(newTrav().V().HasID(edge.Id).Raw())
 
 		if len(edge.Properties)%2 != 0 {
-			return gremerror.NewGrammesError("AddEdges", gremerror.ErrOddNumberOfParameters)
+			return []Edge{}, gremerror.NewGrammesError("AddEdges", gremerror.ErrOddNumberOfParameters)
 		}
 
 		if len(edge.Properties) > 0 {
@@ -243,9 +243,23 @@ func (v *Vertex) AddEdges(client queryClient, edges []EdgeWithPropsAndLabel) err
 		}
 	}
 
-	_, err := client.ExecuteQuery(query)
+	// Execute the built command.
+	responses, err := client.ExecuteQuery(query)
 	if err != nil {
-		return gremerror.NewQueryError("AddEdges", query.String(), err)
+		return []Edge{}, gremerror.NewQueryError("AddEdges", query.String(), err)
 	}
-	return nil
+
+	var edges EdgeList
+	edgeList, err := UnmarshalEdgeList(responses)
+	if err != nil {
+		return []Edge{}, err
+	}
+
+	edges.Edges = edgeList
+
+	if len(edges.Edges) == 0 {
+		return []Edge{}, gremerror.NewGrammesError("AddEdges", gremerror.ErrEmptyResponse)
+	}
+
+	return edges.Edges, nil
 }
