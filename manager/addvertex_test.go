@@ -27,8 +27,8 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"github.com/northwesternmutual/grammes/logging"
-	"github.com/northwesternmutual/grammes/model"
+	"github.com/Kaleidoscope-Inc/grammes/logging"
+	"github.com/Kaleidoscope-Inc/grammes/model"
 )
 
 var testVertex = model.Vertex{

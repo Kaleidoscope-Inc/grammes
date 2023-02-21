@@ -27,10 +27,10 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"github.com/northwesternmutual/grammes"
-	"github.com/northwesternmutual/grammes/gremconnect"
-	"github.com/northwesternmutual/grammes/logging"
-	"github.com/northwesternmutual/grammes/manager"
+	"github.com/Kaleidoscope-Inc/grammes"
+	"github.com/Kaleidoscope-Inc/grammes/gremconnect"
+	"github.com/Kaleidoscope-Inc/grammes/logging"
+	"github.com/Kaleidoscope-Inc/grammes/manager"
 )
 
 var (

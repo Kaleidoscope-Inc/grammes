@@ -4,7 +4,7 @@ The basics of executing Gremlin queries that are bound using the `ExecuteBoundSt
 
 ## Description
 
-**execute-bound-string** demonstrates how to execute Gremlin queries that are bound. Specifically this example shows how to execute them using the `ExecuteBoundStringQuery` function in the Grammes client which takes in a `string` query, bindings and re-bindings as `map[string]string`. Then returns a `[]byte` and `error`. The `[]byte` can be used to *unmarshal* into any kind of expected result such as a list of vertices.
+**execute-bound-string** demonstrates how to execute Gremlin queries that are bound. Specifically this example shows how to execute them using the `ExecuteBoundStringQuery` function in the Grammes client which takes in a `string` query, bindings and re-bindings as `map[string]string`. Then returns a `[]byte` and `error`. The `[]byte` can be used to _unmarshal_ into any kind of expected result such as a list of vertices.
 
 ## Prerequisites
 
@@ -18,19 +18,19 @@ The basics of executing Gremlin queries that are bound using the `ExecuteBoundSt
 
 To run this test you will need a TinkerPop server running and a graph database to connect to locally. This example was tested while using JanusGraph which can be used by locating yourself to the root directory of the Grammes project.
 
-``` sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes
+```sh
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes
 ```
 
 After locating yourself here then you may change directory to the `/scripts` folder.
 
-``` sh
+```sh
 cd scripts
 ```
 
 Finally you may run the `janusgraph.sh` script to begin a local instance of JanusGraph. This will begin the TinkerPop server for you as well.
 
-``` sh
+```sh
 ./janusgraph.sh
 ```
 

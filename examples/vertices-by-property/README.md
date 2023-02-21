@@ -4,7 +4,7 @@ The basics of getting vertices using the `Vertices` function from a Grammes clie
 
 ## Description
 
-**vertices-by-property** demonstrates how to receive vertices on the graph using a Grammes client. Specifically this examples shows how to by using the `Vertices` function which takes in a `string` as the label and `...interface{}` for the properties. Then returns a slice of `Vertex` and `error`. *(The `Vertices` function is multi-purpose and is also seen in `vertices-by-label` example).*
+**vertices-by-property** demonstrates how to receive vertices on the graph using a Grammes client. Specifically this examples shows how to by using the `Vertices` function which takes in a `string` as the label and `...interface{}` for the properties. Then returns a slice of `Vertex` and `error`. _(The `Vertices` function is multi-purpose and is also seen in `vertices-by-label` example)._
 
 ## Prerequisites
 
@@ -18,19 +18,19 @@ The basics of getting vertices using the `Vertices` function from a Grammes clie
 
 To run this test you will need a TinkerPop server running and a graph database to connect to locally. This example was tested while using JanusGraph which can be used by locating yourself to the root directory of the Grammes project.
 
-``` sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes
+```sh
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes
 ```
 
 After locating yourself here then you may change directory to the `/scripts` folder.
 
-``` sh
+```sh
 cd scripts
 ```
 
 Finally you may run the `janusgraph.sh` script to begin a local instance of JanusGraph. This will begin the TinkerPop server for you as well.
 
-``` sh
+```sh
 ./janusgraph.sh
 ```
 

@@ -24,12 +24,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/northwesternmutual/grammes/query/traversal"
+	"github.com/Kaleidoscope-Inc/grammes/query/traversal"
 
-	"github.com/northwesternmutual/grammes/gremerror"
-	"github.com/northwesternmutual/grammes/logging"
-	"github.com/northwesternmutual/grammes/model"
-	"github.com/northwesternmutual/grammes/query"
+	"github.com/Kaleidoscope-Inc/grammes/gremerror"
+	"github.com/Kaleidoscope-Inc/grammes/logging"
+	"github.com/Kaleidoscope-Inc/grammes/model"
+	"github.com/Kaleidoscope-Inc/grammes/query"
 )
 
 type vertexIDQueryManager struct {

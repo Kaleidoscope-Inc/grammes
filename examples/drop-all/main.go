@@ -25,8 +25,8 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/northwesternmutual/grammes"
-	"github.com/northwesternmutual/grammes/examples/exampleutil"
+	"github.com/Kaleidoscope-Inc/grammes"
+	"github.com/Kaleidoscope-Inc/grammes/examples/exampleutil"
 )
 
 var (

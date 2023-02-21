@@ -21,10 +21,10 @@
 package manager
 
 import (
-	"github.com/northwesternmutual/grammes/gremconnect"
-	"github.com/northwesternmutual/grammes/gremerror"
-	"github.com/northwesternmutual/grammes/logging"
-	"github.com/northwesternmutual/grammes/query"
+	"github.com/Kaleidoscope-Inc/grammes/gremconnect"
+	"github.com/Kaleidoscope-Inc/grammes/gremerror"
+	"github.com/Kaleidoscope-Inc/grammes/logging"
+	"github.com/Kaleidoscope-Inc/grammes/query"
 )
 
 // Query handles the querying actions to the server.

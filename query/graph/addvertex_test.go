@@ -25,7 +25,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	T "github.com/northwesternmutual/grammes/query/token"
+	T "github.com/Kaleidoscope-Inc/grammes/query/token"
 )
 
 func TestAddVertex(t *testing.T) {

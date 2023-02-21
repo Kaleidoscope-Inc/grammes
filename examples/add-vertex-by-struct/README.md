@@ -4,7 +4,7 @@ The basics on adding vertices using the `AddVertexByStruct` function from a Gram
 
 ## Description
 
-**add-vertex-by-struct** demonstrates how to add vertices to the graph using a Grammes client. Specifically this example shows how to add vertices using the `AddVertexByStruct` function which allows for `grammes.Vertex` to be fed through as parameters to construct a vertex on the graph. Then this function will return the added vertex as a `struct`. *(This new Vertex struct will have updated fields including the Vertex's ID on the graph).*
+**add-vertex-by-struct** demonstrates how to add vertices to the graph using a Grammes client. Specifically this example shows how to add vertices using the `AddVertexByStruct` function which allows for `grammes.Vertex` to be fed through as parameters to construct a vertex on the graph. Then this function will return the added vertex as a `struct`. _(This new Vertex struct will have updated fields including the Vertex's ID on the graph)._
 
 ## Prerequisites
 
@@ -18,19 +18,19 @@ The basics on adding vertices using the `AddVertexByStruct` function from a Gram
 
 To run this test you will need a TinkerPop server running and a graph database to connect to locally. This example was tested while using JanusGraph which can be used by locating yourself to the root directory of the Grammes project.
 
-``` sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes
+```sh
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes
 ```
 
 After locating yourself here then you may change directory to the `/scripts` folder.
 
-``` sh
+```sh
 cd scripts
 ```
 
 Finally you may run the `janusgraph.sh` script to begin a local instance of JanusGraph. This will begin the TinkerPop server for you as well.
 
-``` sh
+```sh
 ./janusgraph.sh
 ```
 

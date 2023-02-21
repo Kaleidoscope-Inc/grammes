@@ -4,7 +4,7 @@ The basics of getting vertex IDs using the `VertexIDs` function.
 
 ## Description
 
-**id-by-property** demonstrates how to get vertex IDs using a label and vertex properties. Specifically this examples shows how to by using the `VertexIDs` function which takes a `string` label and `...interface{}` for properties. Then returns a `[]interface{}` and `error`. *(This function has multiple purposes and is also shown in `id-by-label`)*
+**id-by-property** demonstrates how to get vertex IDs using a label and vertex properties. Specifically this examples shows how to by using the `VertexIDs` function which takes a `string` label and `...interface{}` for properties. Then returns a `[]interface{}` and `error`. _(This function has multiple purposes and is also shown in `id-by-label`)_
 
 ## Prerequisites
 
@@ -18,19 +18,19 @@ The basics of getting vertex IDs using the `VertexIDs` function.
 
 To run this test you will need a TinkerPop server running and a graph database to connect to locally. This example was tested while using JanusGraph which can be used by locating yourself to the root directory of the Grammes project.
 
-``` sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes
+```sh
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes
 ```
 
 After locating yourself here then you may change directory to the `/scripts` folder.
 
-``` sh
+```sh
 cd scripts
 ```
 
 Finally you may run the `janusgraph.sh` script to begin a local instance of JanusGraph. This will begin the TinkerPop server for you as well.
 
-``` sh
+```sh
 ./janusgraph.sh
 ```
 

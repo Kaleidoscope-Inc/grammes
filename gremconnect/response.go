@@ -23,7 +23,7 @@ package gremconnect
 import (
 	"encoding/json"
 
-	"github.com/northwesternmutual/grammes/gremerror"
+	"github.com/Kaleidoscope-Inc/grammes/gremerror"
 )
 
 // Response is the structure representation of

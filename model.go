@@ -21,8 +21,8 @@
 package grammes
 
 import (
-	"github.com/northwesternmutual/grammes/gremconnect"
-	"github.com/northwesternmutual/grammes/model"
+	"github.com/Kaleidoscope-Inc/grammes/gremconnect"
+	"github.com/Kaleidoscope-Inc/grammes/model"
 )
 
 var (

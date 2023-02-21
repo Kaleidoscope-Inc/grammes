@@ -4,7 +4,7 @@ The basics on adding vertices using the `AddVertexByQuery` function from a Gramm
 
 ## Description
 
-**add-vertex-by-query** demonstrates how to add vertices to the graph using a Grammes client. Specifically this example shows how to add vertices using the `AddVertexByQuery` function which allows for a `Query` object to be fed through as parameters to construct a vertex. *(This can be obtained by using `grammes.Traversal()`)* Then this function will return the added vertex as a `struct`.
+**add-vertex-by-query** demonstrates how to add vertices to the graph using a Grammes client. Specifically this example shows how to add vertices using the `AddVertexByQuery` function which allows for a `Query` object to be fed through as parameters to construct a vertex. _(This can be obtained by using `grammes.Traversal()`)_ Then this function will return the added vertex as a `struct`.
 
 ## Prerequisites
 
@@ -18,19 +18,19 @@ The basics on adding vertices using the `AddVertexByQuery` function from a Gramm
 
 To run this test you will need a TinkerPop server running and a graph database to connect to locally. This example was tested while using JanusGraph which can be used by locating yourself to the root directory of the Grammes project.
 
-``` sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes
+```sh
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes
 ```
 
 After locating yourself here then you may change directory to the `/scripts` folder.
 
-``` sh
+```sh
 cd scripts
 ```
 
 Finally you may run the `janusgraph.sh` script to begin a local instance of JanusGraph. This will begin the TinkerPop server for you as well.
 
-``` sh
+```sh
 ./janusgraph.sh
 ```
 

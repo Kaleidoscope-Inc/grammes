@@ -18,38 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package traversal
+package model
 
-import (
-	"testing"
-
-	"github.com/Kaleidoscope-Inc/grammes/query/scope"
-
-	. "github.com/smartystreets/goconvey/convey"
-)
-
-func TestSum(t *testing.T) {
-	Convey("Given a ) String { that represents the graph's traversal", t, func() {
-		g := NewTraversal()
-		Convey("When 'Sum' is called with no arguments", func() {
-			result := g.Sum()
-			Convey("Then result should equal 'g.sum()'", func() {
-				So(result.String(), ShouldEqual, "g.sum()")
-			})
-		})
-
-		Convey("When 'Order' is called with one Scope", func() {
-			result := g.Sum(scope.Local)
-			Convey("Then result should equal 'g.sum(local)'", func() {
-				So(result.String(), ShouldEqual, "g.sum(local)")
-			})
-		})
-
-		Convey("When 'Order' is called with multiple Scopes", func() {
-			result := g.Sum(scope.Local, scope.Global)
-			Convey("Then result should equal 'g.sum()'", func() {
-				So(result.String(), ShouldEqual, "g.sum()")
-			})
-		})
-	})
+// ID contains the data stores in the
+// 'ID' data including the type and Value
+type ID struct {
+	Type  string `json:"@type"`
+	Value int64  `json:"@value"`
 }

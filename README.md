@@ -5,11 +5,11 @@
 # Grammes
 
 <p align="center">
-<a href="https://godoc.org/github.com/northwesternmutual/grammes"><img src="https://godoc.org/github.com/northwesternmutual/grammes?status.svg" alt="GoDoc" /></a>
-<a href="https://github.com/northwesternmutual/grammes/releases"><img src="https://badgen.net/github/release/northwesternmutual/grammes"></a>
-<a href="https://goreportcard.com/report/github.com/northwesternmutual/grammes"><img src="https://goreportcard.com/badge/github.com/northwesternmutual/grammes" alt="Go Report Card" /></a>
-<a href="https://github.com/northwesternmutual/grammes/blob/master/LICENSE"><img src="https://img.shields.io/github/license/northwesternmutual/grammes.svg" alt="License" /></a>
-<a href="https://github.com/northwesternmutual/grammes/actions"><img src="https://github.com/northwesternmutual/grammes/workflows/Build/badge.svg" /></a>
+<a href="https://godoc.org/github.com/Kaleidoscope-Inc/grammes"><img src="https://godoc.org/github.com/Kaleidoscope-Inc/grammes?status.svg" alt="GoDoc" /></a>
+<a href="https://github.com/Kaleidoscope-Inc/grammes/releases"><img src="https://badgen.net/github/release/northwesternmutual/grammes"></a>
+<a href="https://goreportcard.com/report/github.com/Kaleidoscope-Inc/grammes"><img src="https://goreportcard.com/badge/github.com/Kaleidoscope-Inc/grammes" alt="Go Report Card" /></a>
+<a href="https://github.com/Kaleidoscope-Inc/grammes/blob/master/LICENSE"><img src="https://img.shields.io/github/license/northwesternmutual/grammes.svg" alt="License" /></a>
+<a href="https://github.com/Kaleidoscope-Inc/grammes/actions"><img src="https://github.com/Kaleidoscope-Inc/grammes/workflows/Build/badge.svg" /></a>
 </p>
 
 Grammes is an API/Wrapper for Gremlin and Janusgraph. It's written purely in Golang and allows for easy use of Gremlin without touching the Gremlin terminal.
@@ -46,19 +46,19 @@ You need to setup all of the following tools to run the service locally
 Begin by opening up a terminal or command prompt and clone the grammes repository.
 
 ```sh
-go get -u github.com/northwesternmutual/grammes
+go get -u github.com/Kaleidoscope-Inc/grammes
 ```
 
 ---
 
 ### Setting up JanusGraph
 
-*if you have decided to use another graph database then you may move on to [project setup](#using-grammes)*
+_if you have decided to use another graph database then you may move on to [project setup](#using-grammes)_
 
 First off, direct your terminal to the Grammes' `scripts` directory.
 
 ```sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes/scripts
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes/scripts
 ```
 
 In here you can find the `gremlin.sh` and `janusgraph.sh` scripts. To set up JanusGraph just run the `janusgraph.sh` script.
@@ -74,8 +74,8 @@ To make sure that everything is running try running `gremlin.sh`.
 ```sh
 $ ./gremlin.sh
 SLF4J: Class path contains multiple SLF4J bindings.
-SLF4J: Found binding in [jar:file:/Users/<username>/projects/nm/gocode/src/github.com/northwesternmutual/grammes/bin/janusgraph-0.3.1-hadoop2/lib/slf4j-log4j12-1.7.12.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: Found binding in [jar:file:/Users/<username>/projects/nm/gocode/src/github.com/northwesternmutual/grammes/bin/janusgraph-0.3.1-hadoop2/lib/logback-classic-1.1.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/Users/<username>/projects/nm/gocode/src/github.com/Kaleidoscope-Inc/grammes/bin/janusgraph-0.3.1-hadoop2/lib/slf4j-log4j12-1.7.12.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/Users/<username>/projects/nm/gocode/src/github.com/Kaleidoscope-Inc/grammes/bin/janusgraph-0.3.1-hadoop2/lib/logback-classic-1.1.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
 15:05:59 WARN  org.apache.hadoop.util.NativeCodeLoader  - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
@@ -119,7 +119,7 @@ code main.go
 
 In this file we can begin by making it a typical empty `main.go` file like this:
 
-``` go
+```go
 package main
 
 func main() {
@@ -128,13 +128,13 @@ func main() {
 
 Next, import the grammes package and begin using it by connecting your client to a gremlin server.
 
-``` go
+```go
 package main
 
 import (
     "log"
 
-    "github.com/northwesternmutual/grammes"
+    "github.com/Kaleidoscope-Inc/grammes"
 )
 
 func main() {
@@ -159,13 +159,13 @@ func main() {
 
 Once the client is created then you can begin querying the gremlin server via the `.ExecuteQuery` method in the client. To use this function you must put in a `Query` which is an interface for any kind of Query-able type in the package. These include: `graph.String` and `traversal.String`. For an example of querying the gremlin server for all of the Vertex labels:
 
-``` go
+```go
 package main
 
 import (
     "log"
 
-    "github.com/northwesternmutual/grammes"
+    "github.com/Kaleidoscope-Inc/grammes"
 )
 
 func main() {
@@ -232,7 +232,7 @@ To find examples look in the `examples/` directory of Grammes. In there you'll f
 
 If Nodetool times out or any other part of the setup times out then the most common issue is that Cassandra is already running on your machine. To fix this run this command.
 
-``` bash
+```bash
 # only for Unix at the moment.
 launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.cassandra.plist
 ```

@@ -25,9 +25,9 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/northwesternmutual/grammes"
-	"github.com/northwesternmutual/grammes/examples/exampleutil"
-	t "github.com/northwesternmutual/grammes/query/traversal"
+	"github.com/Kaleidoscope-Inc/grammes"
+	"github.com/Kaleidoscope-Inc/grammes/examples/exampleutil"
+	t "github.com/Kaleidoscope-Inc/grammes/query/traversal"
 )
 
 var (

@@ -5,7 +5,7 @@
 This project uses Go modules to manage dependencies, and is built on Go version `1.11`.
 
 ```sh
-==> go get github.com/northwesternmutual/grammes
+==> go get github.com/Kaleidoscope-Inc/grammes
 ```
 
 ## Testing
@@ -21,7 +21,7 @@ Grammes unit tests can be run by directing yourself to the root directory for th
 Below is an overview of this project's structure (files are not listed)
 
 ```flat
-github.com/northwesternmutual/grammes
+github.com/Kaleidoscope-Inc/grammes
   assets/             - Contains images and shell scripts for customizing JanusGraph
   docs/               - Miscellaneous documents and charts to help explain Grammes
   examples/           - Examples of all resources on how to use Grammes
@@ -52,9 +52,9 @@ github.com/northwesternmutual/grammes
 
 This projects adheres to the following pattern when grouping imports in Go files:
 
-* imports from standard library
-* imports from other projects
-* imports from internal project
+- imports from standard library
+- imports from other projects
+- imports from internal project
 
 In addition, imports in each group must be sorted by length. For example:
 
@@ -65,24 +65,24 @@ import (
 
   "go.uber.org/zap"
 
-  "github.com/northwesternmutual/grammes/query/token"
-  "github.com/northwesternmutual/grammes"
+  "github.com/Kaleidoscope-Inc/grammes/query/token"
+  "github.com/Kaleidoscope-Inc/grammes"
 )
 ```
 
 ## Making a Change
 
-Before making any significant changes, please [open an issue](https://github.com/northwesternmutual/grammes/issues). Discussing your proposed changes ahead of time will make the contribution process smooth for everyone.
+Before making any significant changes, please [open an issue](https://github.com/Kaleidoscope-Inc/grammes/issues). Discussing your proposed changes ahead of time will make the contribution process smooth for everyone.
 
 Once we've discussed your changes and you've got your code ready, make sure that tests are passing (go test) and open your PR. Your pull request is most likely to be accepted if it:
 
-* Includes tests for new functionality.
-* Follows the guidelines in [Effective Go](https://golang.org/doc/effective_go.html) and the [Go team's common code review comments](https://github.com/golang/go/wiki/CodeReviewComments).
-* Has a good commit message.
+- Includes tests for new functionality.
+- Follows the guidelines in [Effective Go](https://golang.org/doc/effective_go.html) and the [Go team's common code review comments](https://github.com/golang/go/wiki/CodeReviewComments).
+- Has a good commit message.
 
 ## License
 
-By contributing your code, you agree to license your contribution under the terms of the [Apache License](https://github.com/northwesternmutual/grammes/blob/master/LICENSE).
+By contributing your code, you agree to license your contribution under the terms of the [Apache License](https://github.com/Kaleidoscope-Inc/grammes/blob/master/LICENSE).
 
 If you are adding a new file it should have a header like below.
 

@@ -4,7 +4,7 @@ The basics of adding and receiving properties of a vertex on the graph using the
 
 ## Description
 
-**vertex-properties-example** demonstrates how to add and receive properties of a vertex using a Grammes client. Specifically to get the properties this example uses the `ExecuteQuery` function to query for the properties of a vertex with the label *"person"* and then *unmarshals* it into a `PropertyList`.
+**vertex-properties-example** demonstrates how to add and receive properties of a vertex using a Grammes client. Specifically to get the properties this example uses the `ExecuteQuery` function to query for the properties of a vertex with the label _"person"_ and then _unmarshals_ it into a `PropertyList`.
 
 ## Prerequisites
 
@@ -18,19 +18,19 @@ The basics of adding and receiving properties of a vertex on the graph using the
 
 To run this test you will need a TinkerPop server running and a graph database to connect to locally. This example was tested while using JanusGraph which can be used by locating yourself to the root directory of the Grammes project.
 
-``` sh
-cd $GOPATH/src/github.com/northwesternmutual/grammes
+```sh
+cd $GOPATH/src/github.com/Kaleidoscope-Inc/grammes
 ```
 
 After locating yourself here then you may change directory to the `/scripts` folder.
 
-``` sh
+```sh
 cd scripts
 ```
 
 Finally you may run the `janusgraph.sh` script to begin a local instance of JanusGraph. This will begin the TinkerPop server for you as well.
 
-``` sh
+```sh
 ./janusgraph.sh
 ```
 

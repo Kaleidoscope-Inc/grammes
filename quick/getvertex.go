@@ -21,8 +21,8 @@
 package quick
 
 import (
-	"github.com/northwesternmutual/grammes"
-	"github.com/northwesternmutual/grammes/query"
+	"github.com/Kaleidoscope-Inc/grammes"
+	"github.com/Kaleidoscope-Inc/grammes/query"
 )
 
 // VerticesByQuery will gather any vertices and return them
