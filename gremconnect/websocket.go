@@ -85,6 +85,40 @@ func (ws *WebSocket) Connect() error {
 	return err
 }
 
+func (ws *WebSocket) ConnectWithBufferSize(bufferSize int) error {
+	var err error
+	dialer := websocket.Dialer{
+		WriteBufferSize:  1024 * bufferSize, // Set up for large messages.
+		ReadBufferSize:   1024 * bufferSize, // Set up for large messages.
+		HandshakeTimeout: 5 * time.Second,
+	}
+
+	// Check if the host address already has the proper
+	// /gremlin endpoint at the end of it. If it doesn't
+	// then concatenate it to the end of the string.
+	// https://groups.google.com/forum/#!msg/gremlin-users/x4hiHsmTsHM/Xe4GcPtRCAAJ
+	if !strings.HasSuffix(ws.address, "/gremlin") {
+		ws.address = ws.address + "/gremlin"
+	}
+
+	ws.conn, _, err = dialer.Dial(ws.address, http.Header{})
+
+	if err == nil {
+		ws.connected = true
+
+		handler := func(appData string) error {
+			ws.Lock()
+			ws.connected = true
+			ws.Unlock()
+			return nil
+		}
+
+		ws.conn.SetPongHandler(handler)
+	}
+
+	return err
+}
+
 // IsConnected returns whether the given
 // websocket has an established connection.
 func (ws *WebSocket) IsConnected() bool {
