@@ -21,6 +21,7 @@
 package gremconnect
 
 import (
+	"crypto/tls"
 	"errors"
 	"net/http"
 	"strings"
@@ -57,6 +58,7 @@ func (ws *WebSocket) Connect() error {
 		WriteBufferSize:  1024 * 256, // Set up for large messages.
 		ReadBufferSize:   1024 * 256, // Set up for large messages.
 		HandshakeTimeout: 5 * time.Second,
+		TLSClientConfig:  &tls.Config{InsecureSkipVerify: true},
 	}
 
 	// Check if the host address already has the proper
