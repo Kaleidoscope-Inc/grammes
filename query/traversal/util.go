@@ -87,7 +87,14 @@ func (g *String) AddStep(step string, params ...interface{}) {
 		case []byte:
 			g.buffer.Write(t)
 		case string:
-			g.buffer.WriteString("\"" + strings.ReplaceAll(t, "\"", "\\\"") + "\"")
+			// NOTE:jk; There are cases where the passed string is already escaped
+			// In these cases a naive escape of a quote will result in a double backslash
+			// which will result to invalid gremlin
+			// See ticket https://k6scope.atlassian.net/browse/BLUEP-652
+
+			// remove escaped quotes with the quote
+			t = strings.ReplaceAll(t, `\"`, `"`)
+			g.buffer.WriteString(`"` + strings.ReplaceAll(t, `"`, `\"`) + `"`)
 		case int64, uint64:
 			g.buffer.WriteString(fmt.Sprintf("%dL", p))
 		case float32, float64:

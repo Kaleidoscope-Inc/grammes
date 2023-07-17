@@ -76,6 +76,30 @@ func TestAddStep(t *testing.T) {
 				So(g.String(), ShouldEqual, "g.test(true)")
 			})
 		})
+
+		Convey("When AddStep is called with string", func() {
+			b := `field`
+			g.AddStep("test", b)
+			Convey(`Then g should equal g.test("field")`, func() {
+				So(g.String(), ShouldEqual, `g.test("field")`)
+			})
+		})
+
+		Convey("When AddStep is called with string with quotes", func() {
+			b := `"field"`
+			g.AddStep("test", b)
+			Convey(`Then g should equal g.test("\"field\"")`, func() {
+				So(g.String(), ShouldEqual, `g.test("\"field\"")`)
+			})
+		})
+
+		Convey("When AddStep is called with string with escaped quotes", func() {
+			b := `\"field\"`
+			g.AddStep("test", b)
+			Convey(`Then g should equal g.test("\"field\"")`, func() {
+				So(g.String(), ShouldEqual, `g.test("\"field\"")`)
+			})
+		})
 	})
 
 }
