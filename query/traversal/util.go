@@ -96,7 +96,7 @@ func (g *String) AddStep(step string, params ...interface{}) {
 			t = strings.ReplaceAll(t, `\"`, `"`)
 			g.buffer.WriteString(`"` + strings.ReplaceAll(t, `"`, `\"`) + `"`)
 		case int64, uint64:
-			g.buffer.WriteString(fmt.Sprintf("%dL", p))
+			g.buffer.WriteString(fmt.Sprintf("%d", p))
 		case float32, float64:
 			g.buffer.WriteString(fmt.Sprintf("%fd", p))
 		default:
