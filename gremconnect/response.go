@@ -22,6 +22,7 @@ package gremconnect
 
 import (
 	"encoding/json"
+	"log"
 
 	"github.com/Kaleidoscope-Inc/grammes/gremerror"
 )
@@ -61,6 +62,8 @@ func MarshalResponse(msg []byte) (Response, error) {
 	} else {
 		resp.Data = result["data"]
 	}
+	log.Printf("request: %+v", j)
+	log.Printf("requestMsg: %s", message)
 	resp.RequestID = j["requestId"].(string)
 
 	return resp, nil

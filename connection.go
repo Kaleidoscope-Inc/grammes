@@ -22,6 +22,7 @@ package grammes
 
 import (
 	"errors"
+	"log"
 
 	"github.com/Kaleidoscope-Inc/grammes/gremconnect"
 	"github.com/Kaleidoscope-Inc/grammes/gremerror"
@@ -31,6 +32,7 @@ import (
 // the Gremlin-server and launch the concurrent functions
 // to handle requests, responses, and server pings.
 func (c *Client) launchConnection() error {
+	log.Printf("yooo")
 	// Connect to the Gremlin-Server.
 	if err := c.conn.Connect(); err != nil {
 		c.broken = true
