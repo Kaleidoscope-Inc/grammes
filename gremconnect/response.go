@@ -22,9 +22,9 @@ package gremconnect
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/Kaleidoscope-Inc/grammes/gremerror"
+	"go.uber.org/zap"
 )
 
 // Response is the structure representation of
@@ -62,8 +62,8 @@ func MarshalResponse(msg []byte) (Response, error) {
 	} else {
 		resp.Data = result["data"]
 	}
-	log.Printf("request: %+v", j)
-	log.Printf("requestMsg: %s", message)
+	zap.S().Infof("request: %+v", j)
+	zap.S().Infof("requestMsg: %s", message)
 	resp.RequestID = j["requestId"].(string)
 
 	return resp, nil
