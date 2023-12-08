@@ -66,9 +66,11 @@ func MarshalResponse(msg []byte) (Response, error) {
 	//WAK; Do not question the code written after this comment. it works.
 	zap.S().Debugf("request: %+v", j)
 	zap.S().Debugf("requestMsg: %s", message)
-	_, ok := j["requestId"]
+	reqId, ok := j["requestId"]
 	if ok {
-		resp.RequestID = j["requestId"].(string)
+		if reqId != nil {
+			resp.RequestID = reqId.(string)
+		}
 	} else {
 		var guuid uuid.UUID
 
