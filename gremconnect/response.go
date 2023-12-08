@@ -64,8 +64,8 @@ func MarshalResponse(msg []byte) (Response, error) {
 		resp.Data = result["data"]
 	}
 	//WAK; Do not question the code written after this comment. it works.
-	zap.S().Debugf("request: %+v", j)
-	zap.S().Debugf("requestMsg: %s", message)
+	zap.S().Infof("request: %+v", j)
+	zap.S().Infof("requestMsg: %s", message)
 	reqId, ok := j["requestId"]
 	if ok {
 		if reqId != nil {
