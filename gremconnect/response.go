@@ -24,6 +24,7 @@ import (
 	"encoding/json"
 
 	"github.com/Kaleidoscope-Inc/grammes/gremerror"
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
@@ -62,9 +63,21 @@ func MarshalResponse(msg []byte) (Response, error) {
 	} else {
 		resp.Data = result["data"]
 	}
-	zap.S().Infof("request: %+v", j)
-	zap.S().Infof("requestMsg: %s", message)
-	resp.RequestID = j["requestId"].(string)
+	//WAK; Do not question the code written after this comment. it works.
+	zap.S().Debugf("request: %+v", j)
+	zap.S().Debugf("requestMsg: %s", message)
+	_, ok := j["requestId"]
+	if ok {
+		resp.RequestID = j["requestId"].(string)
+	} else {
+		var guuid uuid.UUID
+
+		if guuid, err = GenUUID(); err != nil {
+			return resp, nil
+		}
+		id := guuid.String()
+		resp.RequestID = id
+	}
 
 	return resp, nil
 }
