@@ -146,9 +146,9 @@ func (g *String) AddSetProperty(k string, v []interface{}) {
 		switch value := vv.(type) {
 		case float64, float32:
 			g.buffer.WriteString(fmt.Sprintf(`.property(set, "%s", %fd)`, k, value))
-		case int64:
+		case int64, int32, int:
 			g.buffer.WriteString(fmt.Sprintf(`.property(set, "%s", %dL)`, k, value))
-		case int, bool:
+		case bool:
 			g.buffer.WriteString(fmt.Sprintf(".property(set, \"%s\", %v)", k, value))
 		case string:
 			g.buffer.WriteString(fmt.Sprintf(".property(set, \"%s\", \"%s\")", k, value))
