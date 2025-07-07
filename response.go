@@ -22,6 +22,8 @@ package grammes
 
 import (
 	"encoding/json"
+	"errors"
+	"time"
 
 	"github.com/Kaleidoscope-Inc/grammes/gremconnect"
 )
@@ -71,21 +73,32 @@ func (c *Client) retrieveResponse(id string) ([][]byte, error) {
 		dataPart    []byte
 	)
 
-	if n := <-notifier.(chan int); n == 1 {
-		if dataI, ok := c.results.Load(id); ok {
-			for _, d := range dataI.([]interface{}) {
-				if err, ok = d.(error); ok {
-					break
+	// Use configured timeout if set, otherwise default to 5 seconds
+	timeout := c.ResponseTimeout
+	if timeout == 0 {
+		timeout = 10 * time.Second // Set default value to 10 seconds
+	}
+
+	select {
+	case n := <-notifier.(chan int):
+		if n == 1 {
+			if dataI, ok := c.results.Load(id); ok {
+				for _, d := range dataI.([]interface{}) {
+					if err, ok = d.(error); ok {
+						break
+					}
+					if dataPart, err = jsonMarshalData(d); err != nil {
+						break
+					}
+					data = append(data, dataPart)
 				}
-				if dataPart, err = jsonMarshalData(d); err != nil {
-					break
-				}
-				data = append(data, dataPart)
+				close(notifier.(chan int))
+				c.resultMessenger.Delete(id)
+				c.deleteResponse(id)
 			}
-			close(notifier.(chan int))
-			c.resultMessenger.Delete(id)
-			c.deleteResponse(id)
 		}
+	case <-time.After(timeout):
+		return nil, errors.New("timeout waiting for Gremlin response")
 	}
 
 	return data, err

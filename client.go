@@ -22,6 +22,7 @@ package grammes
 
 import (
 	"sync"
+	"time"
 
 	"github.com/Kaleidoscope-Inc/grammes/gremconnect"
 	"github.com/Kaleidoscope-Inc/grammes/gremerror"
@@ -60,6 +61,8 @@ type Client struct {
 	broken bool
 	// logger is used to log out debug statements and errors from the client.
 	logger logging.Logger
+	// ResponseTimeout is the timeout for waiting for Gremlin responses.
+	ResponseTimeout time.Duration
 }
 
 // setupClient default values some fields in the client.
