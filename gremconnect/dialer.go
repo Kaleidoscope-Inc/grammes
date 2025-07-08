@@ -59,7 +59,7 @@ type Dialer interface {
 func NewWebSocketDialer(address string) Dialer {
 	return &WebSocket{
 		timeout:      5 * time.Second,
-		pingInterval: 2 * time.Second, // TODO: revert this
+		pingInterval: 60 * time.Second,
 		writingWait:  15 * time.Second,
 		readingWait:  15 * time.Second,
 		connected:    false,
