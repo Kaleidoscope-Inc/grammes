@@ -21,8 +21,10 @@
 package grammes
 
 import (
+	"errors"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	. "github.com/smartystreets/goconvey/convey"
@@ -141,6 +143,56 @@ func TestHandleResponse407Status(t *testing.T) {
 			Convey("Then no error should be returned", func() {
 				So(err, ShouldBeNil)
 			})
+		})
+	})
+}
+
+func TestRetrieveResponse(t *testing.T) {
+	Convey("Given a client with a prepared response", t, func() {
+		c, _ := mockDial(&mockDialerStruct{})
+		id := "test-id"
+		// Prepare resultMessenger and results for a successful response
+		notifier := make(chan int, 1)
+		c.resultMessenger.Store(id, notifier)
+		c.results.Store(id, []interface{}{map[string]string{"foo": "bar"}})
+		notifier <- 1
+
+		Convey("When retrieveResponse is called and data is present", func() {
+			data, err := c.retrieveResponse(id)
+			So(err, ShouldBeNil)
+			So(len(data), ShouldEqual, 1)
+		})
+	})
+
+	Convey("Given a client with a timeout set very low", t, func() {
+		c, _ := mockDial(&mockDialerStruct{})
+		c.ResponseTimeout = 1 * time.Microsecond
+		id := "timeout-id"
+		// Prepare resultMessenger but do not send notification
+		notifier := make(chan int, 1)
+		c.resultMessenger.Store(id, notifier)
+
+		Convey("When retrieveResponse is called and no data arrives in time", func() {
+			data, err := c.retrieveResponse(id)
+			So(err, ShouldNotBeNil)
+			So(data, ShouldBeNil)
+			So(err.Error(), ShouldContainSubstring, "timeout")
+		})
+	})
+
+	Convey("Given a client with an error in the data", t, func() {
+		c, _ := mockDial(&mockDialerStruct{})
+		id := "error-id"
+		notifier := make(chan int, 1)
+		c.resultMessenger.Store(id, notifier)
+		c.results.Store(id, []interface{}{errors.New("data error")})
+		notifier <- 1
+
+		Convey("When retrieveResponse is called and data contains an error", func() {
+			data, err := c.retrieveResponse(id)
+			So(err, ShouldNotBeNil)
+			So(data, ShouldBeNil)
+			So(err.Error(), ShouldContainSubstring, "data error")
 		})
 	})
 }
