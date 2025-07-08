@@ -166,7 +166,7 @@ func TestRetrieveResponse(t *testing.T) {
 
 	Convey("Given a client with a timeout set very low", t, func() {
 		c, _ := mockDial(&mockDialerStruct{})
-		c.ResponseTimeout = 1 * time.Millisecond
+		c.ResponseTimeout = 1 * time.Microsecond
 		id := "timeout-id"
 		// Prepare resultMessenger but do not send notification
 		notifier := make(chan int, 1)

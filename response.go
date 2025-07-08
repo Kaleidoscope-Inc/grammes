@@ -73,10 +73,10 @@ func (c *Client) retrieveResponse(id string) ([][]byte, error) {
 		dataPart    []byte
 	)
 
-	// Use configured timeout if set, otherwise default to 5 seconds
+	// Use configured timeout if set, otherwise default to 60 seconds
 	timeout := c.ResponseTimeout
 	if timeout == 0 {
-		timeout = 10 * time.Second // Set default value to 10 seconds
+		timeout = 60 * time.Second // Set default value to 60 seconds
 	}
 
 	select {
