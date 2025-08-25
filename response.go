@@ -33,6 +33,10 @@ var (
 	gremMarshalResponse = gremconnect.MarshalResponse
 )
 
+const (
+	ConnectionTimeoutError = "ConnectionTimeoutError: Timeout waiting for Gremlin response"
+)
+
 // readWorker works on a loop and sorts messages as soon as it receives them
 func (c *Client) readWorker(errs chan error, quit chan struct{}) {
 	var (
@@ -98,7 +102,7 @@ func (c *Client) retrieveResponse(id string) ([][]byte, error) {
 			}
 		}
 	case <-time.After(timeout):
-		return nil, errors.New("timeout waiting for Gremlin response")
+		return nil, errors.New(ConnectionTimeoutError)
 	}
 
 	return data, err
