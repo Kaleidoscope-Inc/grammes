@@ -176,7 +176,7 @@ func TestRetrieveResponse(t *testing.T) {
 			data, err := c.retrieveResponse(id)
 			So(err, ShouldNotBeNil)
 			So(data, ShouldBeNil)
-			So(err.Error(), ShouldContainSubstring, "timeout")
+			So(err.Error(), ShouldContainSubstring, ConnectionTimeoutError)
 		})
 	})
 
