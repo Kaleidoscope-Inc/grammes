@@ -61,7 +61,12 @@ func MarshalResponse(msg []byte) (Response, error) {
 	} else {
 		resp.Data = result["data"]
 	}
-	resp.RequestID = j["requestId"].(string)
+	// Handle null requestId (Neptune can return null)
+	if reqID, ok := j["requestId"]; ok && reqID != nil {
+		resp.RequestID = reqID.(string)
+	} else {
+		resp.RequestID = ""
+	}
 
 	return resp, nil
 }
