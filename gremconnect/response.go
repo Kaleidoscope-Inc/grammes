@@ -61,7 +61,10 @@ func MarshalResponse(msg []byte) (Response, error) {
 	} else {
 		resp.Data = result["data"]
 	}
-	resp.RequestID = j["requestId"].(string)
+
+	if requestID, ok := j["requestId"].(string); ok {
+		resp.RequestID = requestID
+	}
 
 	return resp, nil
 }
