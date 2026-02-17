@@ -316,3 +316,130 @@ func TestMarshalResponseUnmarshalError(t *testing.T) {
 		})
 	})
 }
+
+func TestMarshalResponseWithMissingRequestId(t *testing.T) {
+	Convey("Given a valid response without requestId field", t, func() {
+		responseNoRequestId := `
+{
+    "status": {
+        "code": 200,
+        "attributes": {}
+    },
+    "result": {
+        "data": [{
+        }],
+        "meta": {}
+    }
+}
+`
+		byteResponse := []byte(responseNoRequestId)
+		Convey("When MarshalResponse is called", func() {
+			resp, err := MarshalResponse(byteResponse)
+			Convey("Then err should be nil", func() {
+				So(err, ShouldBeNil)
+			})
+			Convey("And the code should be 200", func() {
+				So(resp.Code, ShouldEqual, 200)
+			})
+			Convey("And the RequestID should be empty string", func() {
+				So(resp.RequestID, ShouldEqual, "")
+			})
+		})
+	})
+}
+
+func TestMarshalResponseWithNullRequestId(t *testing.T) {
+	Convey("Given a valid response with null requestId", t, func() {
+		responseNullRequestId := `
+{
+    "requestId": null,
+    "status": {
+        "code": 200,
+        "attributes": {}
+    },
+    "result": {
+        "data": [{
+        }],
+        "meta": {}
+    }
+}
+`
+		byteResponse := []byte(responseNullRequestId)
+		Convey("When MarshalResponse is called", func() {
+			resp, err := MarshalResponse(byteResponse)
+			Convey("Then err should be nil", func() {
+				So(err, ShouldBeNil)
+			})
+			Convey("And the code should be 200", func() {
+				So(resp.Code, ShouldEqual, 200)
+			})
+			Convey("And the RequestID should be empty string", func() {
+				So(resp.RequestID, ShouldEqual, "")
+			})
+		})
+	})
+}
+
+func TestMarshalResponseWithValidRequestId(t *testing.T) {
+	Convey("Given a valid response with requestId field", t, func() {
+		responseWithRequestId := `
+{
+    "requestId": "d2476e5b-b2bc-6a70-2647-3991f68ab415",
+    "status": {
+        "code": 200,
+        "attributes": {}
+    },
+    "result": {
+        "data": [{
+        }],
+        "meta": {}
+    }
+}
+`
+		byteResponse := []byte(responseWithRequestId)
+		Convey("When MarshalResponse is called", func() {
+			resp, err := MarshalResponse(byteResponse)
+			Convey("Then err should be nil", func() {
+				So(err, ShouldBeNil)
+			})
+			Convey("And the code should be 200", func() {
+				So(resp.Code, ShouldEqual, 200)
+			})
+			Convey("And the RequestID should be correctly populated", func() {
+				So(resp.RequestID, ShouldEqual, "d2476e5b-b2bc-6a70-2647-3991f68ab415")
+			})
+		})
+	})
+}
+
+func TestMarshalResponseErrorWithMissingRequestId(t *testing.T) {
+	Convey("Given an error response without requestId field", t, func() {
+		responseErrorNoRequestId := `
+{
+    "status": {
+        "code": 500,
+        "message": "Internal server error",
+        "attributes": {}
+    },
+    "result": {
+    }
+}
+`
+		byteResponse := []byte(responseErrorNoRequestId)
+		Convey("When MarshalResponse is called", func() {
+			resp, err := MarshalResponse(byteResponse)
+			Convey("Then err should be nil (error is in resp.Data)", func() {
+				So(err, ShouldBeNil)
+			})
+			Convey("And the code should be 500", func() {
+				So(resp.Code, ShouldEqual, 500)
+			})
+			Convey("And resp.Data should contain the network error", func() {
+				So(resp.Data, ShouldResemble, gremerror.NewNetworkError(500, "INTERNAL SERVER ERROR", "Internal server error"))
+			})
+			Convey("And the RequestID should be empty string", func() {
+				So(resp.RequestID, ShouldEqual, "")
+			})
+		})
+	})
+}
