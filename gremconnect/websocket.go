@@ -21,13 +21,13 @@
 package gremconnect
 
 import (
+	"context"
 	"errors"
-	"net/http"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"nhooyr.io/websocket"
 )
 
 // WebSocket will hold all of the data used
@@ -48,16 +48,11 @@ type WebSocket struct {
 	sync.RWMutex
 }
 
-// Connect will setup the gorilla websocket and
+// Connect will setup the websocket connection and
 // other configurations to establish a connection
 // to the given address.
 func (ws *WebSocket) Connect() error {
 	var err error
-	dialer := websocket.Dialer{
-		WriteBufferSize:  1024 * 8, // Set up for large messages.
-		ReadBufferSize:   1024 * 8, // Set up for large messages.
-		HandshakeTimeout: 5 * time.Second,
-	}
 
 	// Check if the host address already has the proper
 	// /gremlin endpoint at the end of it. If it doesn't
@@ -67,19 +62,13 @@ func (ws *WebSocket) Connect() error {
 		ws.address = ws.address + "/gremlin"
 	}
 
-	ws.conn, _, err = dialer.Dial(ws.address, http.Header{})
+	ctx, cancel := context.WithTimeout(context.Background(), ws.timeout)
+	defer cancel()
+
+	ws.conn, _, err = websocket.Dial(ctx, ws.address, nil)
 
 	if err == nil {
 		ws.connected = true
-
-		handler := func(appData string) error {
-			ws.Lock()
-			ws.connected = true
-			ws.Unlock()
-			return nil
-		}
-
-		ws.conn.SetPongHandler(handler)
 	}
 
 	return err
@@ -97,16 +86,20 @@ func (ws *WebSocket) IsDisposed() bool {
 	return ws.disposed
 }
 
-// Write uses the gorilla function to write
+// Write uses the websocket function to write
 // a Binary message to the established connection.
 func (ws *WebSocket) Write(msg []byte) error {
-	return ws.conn.WriteMessage(websocket.BinaryMessage, msg)
+	ctx, cancel := context.WithTimeout(context.Background(), ws.writingWait)
+	defer cancel()
+	return ws.conn.Write(ctx, websocket.MessageBinary, msg)
 }
 
-// Read uses the gorilla function to read a response
+// Read uses the websocket function to read a response
 // from the established connection.
 func (ws *WebSocket) Read() (msg []byte, err error) {
-	_, msg, err = ws.conn.ReadMessage()
+	ctx, cancel := context.WithTimeout(context.Background(), ws.readingWait)
+	defer cancel()
+	_, msg, err = ws.conn.Read(ctx)
 	return
 }
 
@@ -115,14 +108,11 @@ func (ws *WebSocket) Read() (msg []byte, err error) {
 func (ws *WebSocket) Close() error {
 	defer func() {
 		close(ws.Quit) // close the channel to notify our pinger.
-		ws.conn.Close()
 		ws.disposed = true
 	}()
 
-	// Send the server the message that we've closed
-	// the connection.
-	return ws.conn.WriteMessage(websocket.CloseMessage,
-		websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+	// Close the connection with normal closure status
+	return ws.conn.Close(websocket.StatusNormalClosure, "")
 }
 
 // Auth returns the websocket's authentication
@@ -158,13 +148,15 @@ func (ws *WebSocket) Ping(errs chan error) {
 		select {
 		case <-ticker.C:
 			connected := true
-			// Send a pinging message with the timeout given
+			// Send a ping message with the timeout given
 			// to the websocket. If there's an error then we lost
 			// connection.
-			if err := ws.conn.WriteControl(websocket.PingMessage, []byte{}, time.Now().Add(ws.writingWait)); err != nil {
+			ctx, cancel := context.WithTimeout(context.Background(), ws.writingWait)
+			if err := ws.conn.Ping(ctx); err != nil {
 				errs <- err
 				connected = false
 			}
+			cancel()
 			ws.Lock()
 			ws.connected = connected
 			ws.Unlock()
