@@ -1,0 +1,52 @@
+# License Policy Configuration
+# This file defines the organization's software license policy
+# Alert ID: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause
+
+# Approved licenses for dependencies
+approved_licenses:
+  - Apache-2.0
+  - MIT
+  - BSD-3-Clause
+  - ISC
+  - MPL-2.0
+
+# Prohibited licenses
+prohibited_licenses:
+  - BSD-2-Clause  # Simplified BSD License - prohibited due to compliance requirements
+  - GPL-2.0       # Copyleft license
+  - GPL-3.0       # Copyleft license
+  - AGPL-3.0      # Copyleft license
+
+# Policy rationale
+policy_rationale: |
+  BSD 2-Clause "Simplified" License is prohibited due to:
+  - SOC 2 CC6.1: Organizations must protect themselves from unauthorized information disclosure
+  - GDPR Article 32: Requires appropriate security level; license violations can compromise data protection
+  - NIST SP 800-53 CM-10: Software Usage Restrictions - must comply with contract agreements
+  - FedRAMP CM-10: Software must be used in accordance with licensing agreements
+  - ISO 27001 A.8.1.1: Inventory of Assets - license violations indicate improper asset management
+
+# Compliance controls
+compliance_controls:
+  - standard: SOC 2
+    control: CC6.1
+    requirement: Protection from unauthorized information disclosure
+  - standard: GDPR
+    control: Article 32
+    requirement: Appropriate security level
+  - standard: NIST SP 800-53
+    control: CM-10
+    requirement: Software Usage Restrictions
+  - standard: FedRAMP
+    control: CM-10
+    requirement: License compliance
+  - standard: ISO 27001
+    control: A.8.1.1
+    requirement: Asset inventory and management
+
+# Remediation actions
+remediation_actions:
+  - Review all dependencies for license compliance
+  - Replace BSD-2-Clause licensed dependencies with approved alternatives
+  - Implement automated license scanning in CI/CD pipeline
+  - Document all third-party licenses in THIRD_PARTY_LICENSES file

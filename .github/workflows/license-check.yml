@@ -1,0 +1,74 @@
+name: License Compliance Check
+
+on:
+  pull_request:
+    branches: [ master, main ]
+  push:
+    branches: [ master, main ]
+  schedule:
+    # Run weekly to catch new license issues
+    - cron: '0 0 * * 0'
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.13'
+    
+    - name: Install go-licenses tool
+      run: go install github.com/google/go-licenses@latest
+    
+    - name: Check dependency licenses
+      run: |
+        echo "Checking licenses for all dependencies..."
+        go-licenses report ./... --template=licenses.tpl > licenses-report.txt || true
+        
+        echo "Scanning for prohibited licenses..."
+        PROHIBITED_FOUND=false
+        
+        # Check for BSD-2-Clause
+        if go-licenses check ./... 2>&1 | grep -i "BSD-2-Clause"; then
+          echo "❌ ERROR: BSD-2-Clause license detected (prohibited by policy)"
+          PROHIBITED_FOUND=true
+        fi
+        
+        # Check for GPL licenses
+        if go-licenses check ./... 2>&1 | grep -iE "(GPL-2.0|GPL-3.0|AGPL)"; then
+          echo "❌ ERROR: GPL/AGPL license detected (prohibited by policy)"
+          PROHIBITED_FOUND=true
+        fi
+        
+        if [ "$PROHIBITED_FOUND" = true ]; then
+          echo ""
+          echo "License policy violation detected!"
+          echo "Please review .license-policy.yaml for approved licenses."
+          echo "See alert: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause"
+          exit 1
+        fi
+        
+        echo "✅ All dependency licenses are compliant with policy"
+    
+    - name: Generate license report
+      if: always()
+      run: |
+        echo "# Dependency License Report" > license-summary.md
+        echo "" >> license-summary.md
+        echo "Generated: $(date)" >> license-summary.md
+        echo "" >> license-summary.md
+        go-licenses report ./... 2>&1 | head -50 >> license-summary.md || true
+    
+    - name: Upload license report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: license-report
+        path: |
+          licenses-report.txt
+          license-summary.md
