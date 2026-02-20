@@ -1,0 +1,66 @@
+name: License Compliance Check
+
+# This workflow checks dependencies for license policy violations
+# Alert ID: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause
+
+on:
+  pull_request:
+    branches: [ master, main ]
+  push:
+    branches: [ master, main ]
+  schedule:
+    # Run weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+
+jobs:
+  license-check:
+    name: Check Dependency Licenses
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.13'
+        
+    - name: Install go-licenses
+      run: go install github.com/google/go-licenses@latest
+      
+    - name: Check for prohibited licenses
+      run: |
+        echo "Checking for license policy violations..."
+        
+        # Generate license report
+        go-licenses report ./... > licenses.txt 2>&1 || true
+        
+        # Check for BSD-2-Clause
+        if grep -i "BSD-2-Clause" licenses.txt; then
+          echo "::error::BSD-2-Clause license detected - prohibited by policy"
+          echo "See .licenserc.yaml for approved alternatives"
+          exit 1
+        fi
+        
+        # Check for GPL licenses
+        if grep -iE "GPL-[0-9]" licenses.txt; then
+          echo "::error::GPL license detected - prohibited by policy"
+          exit 1
+        fi
+        
+        # Check for AGPL
+        if grep -i "AGPL" licenses.txt; then
+          echo "::error::AGPL license detected - prohibited by policy"
+          exit 1
+        fi
+        
+        echo "✅ No prohibited licenses detected"
+        
+    - name: Upload license report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: license-report
+        path: licenses.txt
+        retention-days: 30

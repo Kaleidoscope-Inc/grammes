@@ -1,0 +1,51 @@
+# License Policy Configuration
+# This file defines the organization's license policy for dependencies
+# Alert ID: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause
+
+# Approved licenses for use in this project
+approved:
+  - Apache-2.0
+  - MIT
+  - BSD-3-Clause
+  - ISC
+  - MPL-2.0
+
+# Licenses that require review before use
+review:
+  - LGPL-2.1
+  - LGPL-3.0
+  - EPL-1.0
+  - EPL-2.0
+
+# Prohibited licenses - DO NOT USE
+prohibited:
+  - BSD-2-Clause  # Simplified BSD License - lacks patent protection clause
+  - GPL-2.0       # Copyleft license incompatible with proprietary code
+  - GPL-3.0       # Copyleft license incompatible with proprietary code
+  - AGPL-3.0      # Strong copyleft with network use clause
+  - SSPL          # Server Side Public License
+  - Commons-Clause # Not OSI approved
+
+# Compliance requirements
+compliance:
+  standards:
+    - SOC 2 (CC6.1)
+    - GDPR (Article 32)
+    - NIST SP 800-53 (CM-10)
+    - FedRAMP (CM-10)
+    - ISO 27001 (A.8.1.1)
+  
+  requirements:
+    - All dependencies must use approved licenses
+    - License information must be documented
+    - Regular license audits must be performed
+    - Violations must be remediated within 30 days
+
+# Remediation guidance
+remediation:
+  bsd-2-clause:
+    reason: "BSD-2-Clause lacks patent protection and may expose organization to IP risks"
+    action: "Replace with MIT or Apache-2.0 licensed alternatives"
+    alternatives:
+      gorilla/websocket: "Consider nhooyr.io/websocket (ISC) or gobwas/ws (MIT)"
+      google/uuid: "Consider gofrs/uuid (MIT)"

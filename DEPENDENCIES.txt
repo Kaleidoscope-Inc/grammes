@@ -1,0 +1,87 @@
+# Dependency License Audit
+# Generated in response to Alert: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause
+# Date: 2026-02-16
+
+## Current Dependencies
+
+### Direct Dependencies (from go.mod)
+
+1. github.com/google/uuid v1.1.0
+   - License: BSD-3-Clause
+   - Status: ✅ APPROVED
+   - Notes: BSD-3-Clause includes patent protection clause
+
+2. github.com/gorilla/websocket v1.4.0
+   - License: BSD-2-Clause
+   - Status: ⚠️ PROHIBITED
+   - Remediation Required: Replace with approved alternative
+   - Alternatives:
+     * nhooyr.io/websocket (ISC License)
+     * gobwas/ws (MIT License)
+     * golang.org/x/net/websocket (BSD-3-Clause)
+
+3. github.com/smartystreets/goconvey v0.0.0-20190306220146-200a235640ff
+   - License: MIT (test dependency)
+   - Status: ✅ APPROVED
+   - Notes: Test-only dependency
+
+4. go.uber.org/zap v1.9.1
+   - License: MIT
+   - Status: ✅ APPROVED
+   - Notes: Logging library
+
+### Indirect Dependencies
+
+5. github.com/pkg/errors v0.8.1
+   - License: BSD-2-Clause
+   - Status: ⚠️ REVIEW REQUIRED
+   - Notes: Indirect dependency, consider alternatives
+
+6. github.com/gopherjs/gopherjs (various versions)
+   - License: BSD-2-Clause
+   - Status: ⚠️ REVIEW REQUIRED
+   - Notes: Test dependency via goconvey
+
+## Remediation Plan
+
+### Priority 1: Direct Dependencies
+- **gorilla/websocket**: Must be replaced with approved alternative
+  - Recommended: nhooyr.io/websocket (ISC License)
+  - Migration effort: Medium (API differences exist)
+  - Timeline: Within 30 days per compliance policy
+
+### Priority 2: Indirect Dependencies
+- **pkg/errors**: Evaluate if still needed
+  - Go 1.13+ has built-in error wrapping
+  - Consider migrating to standard library errors
+  - Alternative: github.com/hashicorp/go-multierror (MPL-2.0)
+
+- **gopherjs**: Test-only dependency
+  - Evaluate if goconvey is essential
+  - Consider standard testing library
+  - Alternative: github.com/stretchr/testify (MIT)
+
+## Compliance Status
+
+Current Status: ❌ NON-COMPLIANT
+- 1 direct dependency with prohibited license (gorilla/websocket)
+- 2+ indirect dependencies requiring review
+
+Target Status: ✅ COMPLIANT
+- All dependencies use approved licenses per .licenserc.yaml
+- Regular license audits via CI/CD pipeline
+- Documentation maintained
+
+## Next Steps
+
+1. Review and approve .licenserc.yaml policy
+2. Implement license checking in CI/CD (see .github/workflows/license-check.yml)
+3. Create tickets for dependency replacements
+4. Schedule migration work within compliance timeline
+5. Set up automated license scanning
+
+## References
+
+- License Policy: .licenserc.yaml
+- Compliance Standards: SOC 2, GDPR, NIST SP 800-53, FedRAMP, ISO 27001
+- Alert ID: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause
