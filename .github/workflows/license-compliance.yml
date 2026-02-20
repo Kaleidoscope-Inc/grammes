@@ -1,0 +1,91 @@
+name: License Compliance Check
+
+on:
+  pull_request:
+    branches: [ master, main ]
+  push:
+    branches: [ master, main ]
+  schedule:
+    # Run weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+
+jobs:
+  license-check:
+    name: Check Third-Party Licenses
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.13'
+        
+    - name: Install go-licenses
+      run: |
+        go install github.com/google/go-licenses@latest
+        
+    - name: Generate license report
+      run: |
+        echo "## Third-Party License Report" > license-report.md
+        echo "" >> license-report.md
+        echo "Generated on: $(date)" >> license-report.md
+        echo "" >> license-report.md
+        go-licenses report github.com/northwesternmutual/grammes >> license-report.md || true
+        
+    - name: Check for restricted licenses
+      id: license-check
+      run: |
+        echo "Checking for license policy compliance..."
+        
+        # List of licenses that require review (based on organizational policy)
+        REVIEW_REQUIRED_LICENSES="BSD-2-Clause"
+        
+        # Generate CSV report
+        go-licenses csv github.com/northwesternmutual/grammes > licenses.csv || true
+        
+        # Check for BSD-2-Clause licenses
+        if grep -q "BSD-2-Clause" licenses.csv; then
+          echo "⚠️  WARNING: BSD-2-Clause licensed dependencies detected"
+          echo "review_required=true" >> $GITHUB_OUTPUT
+          grep "BSD-2-Clause" licenses.csv || true
+        else
+          echo "✅ No BSD-2-Clause licenses detected"
+          echo "review_required=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Upload license report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: license-report
+        path: |
+          license-report.md
+          licenses.csv
+          
+    - name: Comment on PR (if BSD-2-Clause found)
+      if: steps.license-check.outputs.review_required == 'true' && github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '⚠️ **License Compliance Notice**\n\nThis PR includes dependencies with BSD-2-Clause licenses, which require review per organizational policy.\n\nPlease review:\n- THIRD-PARTY-LICENSES.txt for full license documentation\n- Compliance requirements: SOC 2 (CC6.1), GDPR (Article 32), NIST SP 800-53 (CM-10), FedRAMP (CM-10), ISO 27001 (A.8.1.1)\n\nContact security@kaleidoscope-inc.com or legal@kaleidoscope-inc.com for approval.'
+          })
+          
+    - name: Create issue for license review (on schedule)
+      if: steps.license-check.outputs.review_required == 'true' && github.event_name == 'schedule'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔍 Weekly License Compliance Review Required',
+            body: '⚠️ **Automated License Compliance Check**\n\nBSD-2-Clause licensed dependencies detected in weekly scan.\n\n**Action Required:**\n1. Review THIRD-PARTY-LICENSES.txt\n2. Verify compliance with organizational policy\n3. Consider migration to approved licenses if necessary\n\n**Compliance Standards:**\n- SOC 2 (CC6.1)\n- GDPR (Article 32)\n- NIST SP 800-53 (CM-10)\n- FedRAMP (CM-10)\n- ISO 27001 (A.8.1.1)\n\n**Alert Reference:** SB-LICENSE-POLICY-VIOLATION::bsd-2-clause\n\nContact: security@kaleidoscope-inc.com',
+            labels: ['security', 'compliance', 'license-review']
+          })

@@ -1,0 +1,135 @@
+# Third-Party Licenses
+
+This document lists all third-party dependencies used in this project and their respective licenses.
+
+## License Compliance Notice
+
+This project uses dependencies with various open-source licenses. Some dependencies use the BSD-2-Clause license, which has been flagged for review according to organizational license policy (Alert: SB-LICENSE-POLICY-VIOLATION).
+
+**Compliance Requirements:**
+- SOC 2 (CC6.1): Organizations must protect themselves from unauthorized information disclosure, including adherence to software licensing agreements
+- GDPR (Article 32): Requires appropriate security measures; license violations can compromise data protection
+- NIST SP 800-53 (CM-10): Software Usage Restrictions - use software in accordance with contract agreements and copyright laws
+- FedRAMP (CM-10): Software Usage Restrictions
+- ISO 27001 (A.8.1.1): Inventory of Assets - proper asset management and control
+
+## Direct Dependencies
+
+### github.com/google/uuid v1.1.0
+- **License**: BSD-3-Clause
+- **Purpose**: UUID generation
+- **License URL**: https://github.com/google/uuid/blob/master/LICENSE
+
+### github.com/gorilla/websocket v1.4.0
+- **License**: BSD-2-Clause ⚠️
+- **Purpose**: WebSocket implementation for Gremlin server communication
+- **License URL**: https://github.com/gorilla/websocket/blob/master/LICENSE
+- **Compliance Note**: This dependency uses BSD-2-Clause license. Review required per organizational policy.
+- **Mitigation**: 
+  - BSD-2-Clause is OSI-approved and permissive
+  - Allows commercial use, modification, and distribution
+  - Requires attribution and disclaimer of warranty
+  - Consider alternatives: nhooyr.io/websocket (MIT), gobwas/ws (MIT) if policy requires
+
+### github.com/pkg/errors v0.8.1
+- **License**: BSD-2-Clause ⚠️
+- **Purpose**: Error handling utilities
+- **License URL**: https://github.com/pkg/errors/blob/master/LICENSE
+- **Compliance Note**: This dependency uses BSD-2-Clause license. Review required per organizational policy.
+- **Mitigation**:
+  - Standard Go error wrapping (Go 1.13+) can replace this dependency
+  - Consider migration to native Go error handling
+
+### github.com/smartystreets/goconvey v0.0.0-20190306220146-200a235640ff
+- **License**: MIT
+- **Purpose**: Testing framework
+- **License URL**: https://github.com/smartystreets/goconvey/blob/master/LICENSE.md
+
+### github.com/stretchr/testify v1.3.0
+- **License**: MIT
+- **Purpose**: Testing assertions
+- **License URL**: https://github.com/stretchr/testify/blob/master/LICENSE
+
+### go.uber.org/zap v1.9.1
+- **License**: MIT
+- **Purpose**: Structured logging
+- **License URL**: https://github.com/uber-go/zap/blob/master/LICENSE.txt
+
+### go.uber.org/atomic v1.3.2
+- **License**: MIT
+- **Purpose**: Atomic operations (dependency of zap)
+- **License URL**: https://github.com/uber-go/atomic/blob/master/LICENSE.txt
+
+### go.uber.org/multierr v1.1.0
+- **License**: MIT
+- **Purpose**: Error handling (dependency of zap)
+- **License URL**: https://github.com/uber-go/multierr/blob/master/LICENSE.txt
+
+## Indirect Dependencies
+
+### github.com/gopherjs/gopherjs v0.0.0-20190309154008-847fc94819f9
+- **License**: BSD-2-Clause ⚠️
+- **Purpose**: Indirect dependency (testing)
+- **License URL**: https://github.com/gopherjs/gopherjs/blob/master/LICENSE
+
+### github.com/smartystreets/assertions v0.0.0-20190215210624-980c5ac6f3ac
+- **License**: MIT
+- **Purpose**: Indirect dependency (testing)
+- **License URL**: https://github.com/smartystreets/assertions/blob/master/LICENSE.md
+
+## License Summary
+
+| License Type | Count | Dependencies |
+|--------------|-------|--------------|
+| MIT | 6 | google/uuid, smartystreets/goconvey, smartystreets/assertions, stretchr/testify, uber-go/zap, uber-go/atomic, uber-go/multierr |
+| BSD-2-Clause ⚠️ | 3 | gorilla/websocket, pkg/errors, gopherjs/gopherjs |
+| BSD-3-Clause | 1 | google/uuid |
+| Apache-2.0 | 1 | This project (grammes) |
+
+## Recommended Actions
+
+1. **Immediate**: Document and acknowledge BSD-2-Clause usage
+2. **Short-term**: Evaluate if BSD-2-Clause licenses meet organizational policy requirements
+3. **Long-term**: Consider migration plan if policy prohibits BSD-2-Clause:
+   - Replace gorilla/websocket with nhooyr.io/websocket (MIT) or gobwas/ws (MIT)
+   - Replace pkg/errors with native Go 1.13+ error wrapping
+   - Update gopherjs dependency or use alternative testing approach
+
+## BSD-2-Clause License Terms
+
+The BSD-2-Clause license is a permissive open-source license that:
+- ✅ Allows commercial use
+- ✅ Allows modification
+- ✅ Allows distribution
+- ✅ Allows private use
+- ⚠️ Requires attribution (copyright notice and license text)
+- ⚠️ Includes disclaimer of warranty
+- ❌ Does NOT provide patent grant (unlike Apache-2.0)
+- ❌ Does NOT provide trademark rights
+
+## Compliance Verification
+
+To verify license compliance:
+
+```bash
+# Install go-licenses tool
+go install github.com/google/go-licenses@latest
+
+# Check all licenses
+go-licenses report github.com/northwesternmutual/grammes
+
+# Check for specific license types
+go-licenses check github.com/northwesternmutual/grammes --disallowed_types=forbidden,restricted
+```
+
+## Contact
+
+For questions about license compliance, contact:
+- Security Team: security@kaleidoscope-inc.com
+- Legal Team: legal@kaleidoscope-inc.com
+
+---
+
+**Last Updated**: 2026-02-16
+**Alert Reference**: SB-LICENSE-POLICY-VIOLATION::bsd-2-clause
+**Analyzer**: ANL-030-SBOMAnalyzer
