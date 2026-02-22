@@ -1,3 +1,6 @@
+// Copyright (c) Northwestern Mutual
+// SPDX-License-Identifier: Apache-2.0
+
 module github.com/northwesternmutual/grammes
 
 go 1.13
