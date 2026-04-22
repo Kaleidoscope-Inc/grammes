@@ -28,11 +28,13 @@ package traversal
 // AddE(string)
 // AddE(*String)
 func (g String) AddE(param interface{}) String {
-	switch param.(type) {
+	switch v := param.(type) {
 	case String:
-		g = g.append(".addE(" + param.(String).Raw().String() + ")")
+		g = g.append(".addE(" + v.Raw().String() + ")")
 	case string:
-		g = g.append(".addE(\"" + param.(string) + "\")")
+		g = g.append(".addE(\"" + v + "\")")
+	case EdgeLabel:
+		g = g.append(`.addE("` + v.templateAction() + `")`)
 	default:
 		g.AddStep("addE")
 	}

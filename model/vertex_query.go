@@ -66,7 +66,11 @@ func (v *Vertex) QueryBothEdges(client queryClient, labels ...string) ([]Edge, e
 		return nil, gremerror.NewGrammesError("QueryBothEdges", gremerror.ErrNilClient)
 	}
 
-	var query = newTrav().V().HasID(v.ID()).BothE(labels...)
+	labelsI := make([]interface{}, len(labels))
+	for i, l := range labels {
+		labelsI[i] = l
+	}
+	var query = newTrav().V().HasID(v.ID()).BothE(labelsI...)
 
 	responses, err := client.ExecuteQuery(query)
 	if err != nil {
@@ -91,7 +95,11 @@ func (v *Vertex) QueryOutEdges(client queryClient, labels ...string) ([]Edge, er
 		return nil, gremerror.NewGrammesError("QueryOutEdges", gremerror.ErrNilClient)
 	}
 
-	responses, err := client.ExecuteQuery(traversal.NewTraversal().V().HasID(v.ID()).OutE(labels...))
+	labelsI := make([]interface{}, len(labels))
+	for i, l := range labels {
+		labelsI[i] = l
+	}
+	responses, err := client.ExecuteQuery(traversal.NewTraversal().V().HasID(v.ID()).OutE(labelsI...))
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +122,11 @@ func (v *Vertex) QueryInEdges(client queryClient, labels ...string) ([]Edge, err
 		return nil, gremerror.NewGrammesError("QueryInEdges", gremerror.ErrNilClient)
 	}
 
-	var query = newTrav().V().HasID(v.ID()).InE(labels...)
+	labelsI := make([]interface{}, len(labels))
+	for i, l := range labels {
+		labelsI[i] = l
+	}
+	var query = newTrav().V().HasID(v.ID()).InE(labelsI...)
 
 	responses, err := client.ExecuteQuery(query)
 	if err != nil {

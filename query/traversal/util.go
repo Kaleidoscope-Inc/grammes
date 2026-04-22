@@ -80,6 +80,10 @@ func (g *String) AddStep(step string, params ...interface{}) {
 		switch t := p.(type) {
 		case String:
 			g.buffer.WriteString(t.Raw().String())
+		case VertexLabel:
+			g.buffer.WriteString(`"` + t.templateAction() + `"`)
+		case EdgeLabel:
+			g.buffer.WriteString(`"` + t.templateAction() + `"`)
 		case Parameter:
 			g.buffer.WriteString(t.String())
 		case byte:

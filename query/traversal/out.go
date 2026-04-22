@@ -21,28 +21,18 @@
 package traversal
 
 // Out moves to the outgoing adjacent vertices given the edge labels.
-func (g String) Out(labels ...string) String {
-	var p []interface{}
-
-	for _, l := range labels {
-		p = append(p, l)
-	}
-
-	g.AddStep("out", p...)
-
+// Accepts string or EdgeLabel values; EdgeLabel values are serialised with a
+// tenant-prefix template action resolved at query execution time.
+func (g String) Out(labels ...interface{}) String {
+	g.AddStep("out", labels...)
 	return g
 }
 
 // OutE moves to the outgoing incident edges given the edge labels.
-func (g String) OutE(labels ...string) String {
-	var p []interface{}
-
-	for _, l := range labels {
-		p = append(p, l)
-	}
-
-	g.AddStep("outE", p...)
-
+// Accepts string or EdgeLabel values; EdgeLabel values are serialised with a
+// tenant-prefix template action resolved at query execution time.
+func (g String) OutE(labels ...interface{}) String {
+	g.AddStep("outE", labels...)
 	return g
 }
 

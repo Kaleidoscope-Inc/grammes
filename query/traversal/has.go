@@ -103,9 +103,13 @@ func (g String) HasKey(pOrStr interface{}, handledStrings ...string) String {
 // HasLabel(string (Predicate))
 // HasLabel(string, ...string)
 func (g String) HasLabel(pOrStr interface{}, handledStrings ...string) String {
-	switch pOrStr.(type) {
+	switch v := pOrStr.(type) {
 	case string:
-		g = g.append(".hasLabel(\"" + pOrStr.(string) + "\"")
+		g = g.append(".hasLabel(\"" + v + "\"")
+	case VertexLabel:
+		g = g.append(`.hasLabel("` + v.templateAction() + `"`)
+	case EdgeLabel:
+		g = g.append(`.hasLabel("` + v.templateAction() + `"`)
 	default:
 		g = g.append(fmtStr(".hasLabel(%v", pOrStr))
 	}
