@@ -57,6 +57,13 @@ func PrepareRequest(query string, bindings, rebindings map[string]string) (req R
 	req.Op = "eval"
 	req.Processor = ""
 
+	if bindings == nil {
+		bindings = map[string]string{}
+	}
+	if rebindings == nil {
+		rebindings = map[string]string{}
+	}
+
 	req.Args = make(map[string]interface{})
 	req.Args["language"] = "gremlin-groovy"
 	req.Args["gremlin"] = query
